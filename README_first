@@ -1,0 +1,9 @@
+BACKEND:
+
+dependencies:
+1. express -> npm install --save express
+2. massive -> 
+3. docker-compose
+4. docker 
+
+
