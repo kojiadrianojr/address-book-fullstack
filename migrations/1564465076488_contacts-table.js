@@ -4,7 +4,7 @@ exports.up = (pgm) => {
  pgm.createTable('contacts', {
   id: {
    type: 'serial',
-   primary: true,
+   primaryKey: true,
   },
   first_name: {
    type: 'text',

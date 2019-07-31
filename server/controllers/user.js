@@ -10,11 +10,16 @@ function  register (req, res) {
 	.then(hash => {
 	  return db.users.insert(
 	    {
-	      username,
-	      email,
-	      password: hash,
+	     username: username,
+	     email: email,
+	     password: hash,
+	      //addressbook:[{
+		//  contactId: null,
+		//  userId: undefined 
+		//},
+	     // ],
 	    },
-	    { fields: ['id', 'username', 'email'] },
+	    { deepInsert: true },
 	  );	 
 	}).then(user => {
 		const token = jwt.sign({ userId: user.id }, secret);

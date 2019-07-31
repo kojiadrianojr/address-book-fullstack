@@ -1,8 +1,8 @@
 const express = require('express');
 const massive = require('massive');
-const user = require('./controllers/user');
-const contact = require('./controllers/contact'); 
-
+const user = require('./controllers/user'); // user controller
+const contact = require('./controllers/contact');  // contact controller
+const ab = require('./controllers/addressbook.js'); //addressbook controller
 massive({
   host: 'localhost',
   port: 5432,
@@ -25,6 +25,9 @@ massive({
   app.get('/api/contact', contact.search); 
   app.patch('/api/contacts/:contactId', contact.update);
   app.delete('/api/contacts', contact.del);
+
+  
+
   const PORT = 3911
   app.listen(PORT, () => {console.log(`Server now listening /(^_^)/  @ ${PORT}`)});
 

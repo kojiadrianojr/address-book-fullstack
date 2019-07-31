@@ -1,5 +1,6 @@
 function add (req, res) {
   const db = req.app.get('db')
+  const { userId } = req.query
   const {  
   first_name,
   last_name,
@@ -23,6 +24,11 @@ function add (req, res) {
 	city: city,
 	postal_code,
 	country,
+	addressbook: [{
+	  userId: userId,
+	  contactId: undefined
+	  },
+	 ],
 	}, {deepInsert: true})
 	.then(user => res.status(201).json(user))
 	.catch(err => {
