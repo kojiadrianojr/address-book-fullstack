@@ -93,7 +93,15 @@ export default class  Signin extends React.Component {
 	  }}
 	>
 	  <div
-	    style={{ margin: 'auto', fontSize: '2em', color: 'white'}}
+	    style={{ 
+		margin: 'auto', 
+		fontSize: '2em', 
+		color: 'white', 
+		letterSpacing: '5px', 
+		backgroundColor: 'rgba(0,0,0,0.3)',
+		padding: '15px',
+		border: '5px solid black' 
+		}}
 	  >
 	    <h1>With you, <br/>  Every step.</h1>	
 	  </div>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormControl, Input , InputLabel, InputAdornment, IconButton, Button, FormHelperText } from '@material-ui/core';
 import { AccountCircle, Visibility, VisibilityOff, VpnKey } from '@material-ui/icons';
-
+import Fade from '@material-ui/core/Fade';
 export default function FormComponent({
  onSubmitFn,
  inputFn, 
@@ -12,9 +12,9 @@ export default function FormComponent({
   
   const [values, setValues] = React.useState({
    showPassword: false,
-
   })
 
+ 
   const handleChange = prop => event => {
     setValues({ ...values, [prop]: event.target.value });
   };
@@ -46,7 +46,7 @@ export default function FormComponent({
 	          </InputAdornment>
 		}
 	/>
-	 {!checkerState.username &&<FormHelperText error id="component-error-text">Username is required</FormHelperText>}
+	 {!checkerState.username &&  <FormHelperText error id="component-error-text">Username is required</FormHelperText> }
    </FormControl>
    <FormControl
 	style={{margin: '10px' }}	
