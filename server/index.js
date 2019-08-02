@@ -1,5 +1,6 @@
 const express = require('express');
 const massive = require('massive');
+const cors = require("cors");
 const user = require('./controllers/user'); // user controller
 const contact = require('./controllers/contact');  // contact controller
 const ab = require('./controllers/addressbook.js'); //addressbook controller
@@ -14,6 +15,7 @@ massive({
   const app = express();
   app.set('db', db);
   app.use(express.json());
+  app.use(cors());
 
 //user
   app.post('/api/user', user.register);  
