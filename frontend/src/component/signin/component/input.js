@@ -1,13 +1,18 @@
 import React from 'react';
-import { FormControl, Input , InputLabel, InputAdornment, IconButton, Button, FormHelperText } from '@material-ui/core';
+import { FormControl, Input , InputLabel, InputAdornment, IconButton, Button, FormHelperText, Box } from '@material-ui/core';
 import { AccountCircle, Visibility, VisibilityOff, VpnKey } from '@material-ui/icons';
 import Fade from '@material-ui/core/Fade';
+
+
+
+
 export default function FormComponent({
  onSubmitFn,
  inputFn, 
  checkerFn,
  credentialState,
- checkerState
+ checkerState,
+ title,
 }) {
   
   const [values, setValues] = React.useState({
@@ -15,9 +20,6 @@ export default function FormComponent({
   })
 
  
-  const handleChange = prop => event => {
-    setValues({ ...values, [prop]: event.target.value });
-  };
 
   const handleClickShowPassword = () => {
     setValues({ ...values, showPassword: !values.showPassword });
@@ -31,14 +33,28 @@ export default function FormComponent({
 <form 
   onSubmit={onSubmitFn}
   style={{display: 'flex', flexDirection: 'column', width: '100%', margin: 'auto'}}>
+  { title === 'Register' &&
+	<FormControl style={{ margin: '10px' }} >
+	   <InputLabel htmlFor="Email">Email</InputLabel>
+	   <Input 
+		error={checkerState.email?false:true}
+		id="Email" name="email"  
+	   	onBlur={(e)=> checkerFn(e)}
+		onChange={(e)=>inputFn(e)}
+	   />
+
+  {!checkerState.email &&  <FormHelperText error id="component-error-text">Email is required</FormHelperText> }
+	</FormControl>
+  }
    <FormControl
 	style={{ margin: '10px' }}	
     >
 	<InputLabel htmlFor="Username">Username</InputLabel>
         <Input
+	  name="username"
 	  error={checkerState.username?false:true}
-	  onBlur={() => checkerFn('username') }
-	  onChange={(e) => inputFn('username',e)}
+	  onBlur={(e) => checkerFn(e) }
+	  onChange={(e) => inputFn(e)}
 	  id="Username"
 	  startAdornment={
 		  <InputAdornment position="start">
@@ -53,9 +69,10 @@ export default function FormComponent({
    >
 	<InputLabel htmlFor="Password" >Password</InputLabel>   
    	<Input 
+	  name="password"
 	  error={checkerState.password?false:true}
-	  onBlur={()=> checkerFn('password')}
-	  onChange={(e)=> inputFn('password', e)}
+	  onBlur={(e)=> checkerFn(e)}
+	  onChange={(e)=> inputFn(e)}
 	  id="Password"
 	  type={values.showPassword? 'text' : 'password'}
 	  startAdornment={
@@ -77,16 +94,53 @@ export default function FormComponent({
 	/>	
  {!checkerState.password &&<FormHelperText error id="component-error-text">Password is required</FormHelperText>}
 
-  </FormControl> 
-  <Button 
+ </FormControl> 
+{ title==='Register' &&
+  <FormControl
+         style={{margin: '10px' }}
+    >
+         <InputLabel htmlFor="confirmpass">Confirm Password</InputLabel>
+         <Input
+	   name="confirmpass"
+           error={checkerState.confirmpass?false:true}
+           onBlur={(e)=> checkerFn(e)}
+           onChange={(e)=> inputFn(e)}
+           id="confirmpass"
+           type={values.showPassword? 'text' : 'password'}
+           startAdornment={
+                   <InputAdornment position="start">
+                         <VpnKey />
+                   </InputAdornment>
+                 }
+           endAdornment={
+                 <InputAdornment>
+                 <IconButton
+                  aria-label="toggle password"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                 >
+                 {values.showPassword? <Visibility/>:<VisibilityOff/>}
+                 </IconButton>
+                 </InputAdornment>
+                 }
+         />
+ {!checkerState.confirmpass &&<FormHelperText error id="component-error-text">Confirm Password please</FormHelperText>}
+ 
+   </FormControl>
+}
+  <Box component="div"
+       style={{ width: '100%', margin: '20px 0' }}
+   >
+
+  <Button
+        style={{ width: '100%'  }} 
 	variant="outlined"
   	type="submit"
    >
-    Login  
+   {title}     
   </Button>
-  <Button>
-    Register
-  </Button>
+ 
+ </Box>
   </form>
   ) 
 
