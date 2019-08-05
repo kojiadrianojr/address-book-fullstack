@@ -3,6 +3,7 @@ import './App.css';
 import { Route }  from 'react-router-dom';
 
 import Signin from './component/signin/Signin';
+import AddressBook from './component/addressbook/Addressbook';
 import {ProtectedRoute} from './component/common-component/ProtectedRoute';
 class App extends React.Component {
 
@@ -13,12 +14,8 @@ render(){
 	<ProtectedRoute
 	  exact 
 	  path="/Home" 
-	  component={()=> {
-	   return (
-		<p>Hello</p> 
-	   )
-	  }  
-	}/>
+	  component={AddressBook}  
+	/>
   </div>	
  )}
 }

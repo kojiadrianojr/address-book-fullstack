@@ -8,7 +8,7 @@ import AddressBookLogo from '../../icons/logo2.png';
 import SignInWallpaper from '../../icons/baby-back-view-blur-1497394.jpg';
 
 import FormComponent  from './component/input';
-import AppBarComponent from './component/appbar';
+import AppBarComponent from './../common-component/appbar';
 
 import auth from '../../controller/auth.js';
 
@@ -24,18 +24,15 @@ export default class  Signin extends React.Component {
 	 username: '',
 	 password: '',
 	 confirmpass: '',
-	 email: '',
 	},
 	checkerLogin:{ 
 	  username: true,
 	  password: true,
-
 	},
 	checkerRegister: {
 	  username: true,
 	  password: true,
 	  confirmpass: true,
-	  email: true,
 	},
         isRegister: false,
 	
@@ -49,16 +46,33 @@ export default class  Signin extends React.Component {
 	return alert('Please enter username and password')
     } 
    
-    auth.login(() => {
+    auth.login(this.state.credentials,() => {
          this.props.history.push("/Home");
     })
  }
 
  onRegister = (e, props) => {
-   e.preventDefault();
-   auth.register(this.state.register)
-
-
+   e.preventDefault();	
+   if (this.state.register.username === ''){
+    this.setState({
+      checkerRegister: {
+        username: false,
+      }
+    });
+    alert('Enter valid credentials');
+   }else if (this.state.register.password !== this.state.register.confirmpass){
+    this.setState({
+      checkerRegister: { password: false, confirmpass: false  }
+    });
+    alert('Password does not match'); 
+   }
+   else {
+    this.setState({
+      checkerRegister: { username: true, password: true, confirmpass: true}
+    });
+    auth.register(this.state.register, ()=>{ this.setState({ isRegister: false})  })
+      
+   }
  }
  
  handleInput = (e) => {
@@ -96,6 +110,14 @@ handleRegister = (e) => {
    this.setState({ register: register_cpy, checkerRegister: checker_cpy })
  }
 
+ if(register_cpy.password !== register_cpy.confirmpass){
+   checker_cpy.confirmpass = false
+   this.setState({ checkerRegister: checker_cpy });
+ }else{
+   checker_cpy.confirmpass = true
+   this.setState({ checkerRegister: checker_cpy });
+ }
+
 
 }
 
@@ -120,7 +142,7 @@ handleRegister = (e) => {
 	}}
 
   >
-  <AppBarComponent logo={AddressBookLogo} />
+  <AppBarComponent component="login-page"  logo={AddressBookLogo} />
     <Container
 	fixed
 	component="div"

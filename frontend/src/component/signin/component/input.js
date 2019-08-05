@@ -1,7 +1,6 @@
 import React from 'react';
 import { FormControl, Input , InputLabel, InputAdornment, IconButton, Button, FormHelperText, Box } from '@material-ui/core';
 import { AccountCircle, Visibility, VisibilityOff, VpnKey } from '@material-ui/icons';
-import Fade from '@material-ui/core/Fade';
 
 
 
@@ -33,24 +32,12 @@ export default function FormComponent({
 <form 
   onSubmit={onSubmitFn}
   style={{display: 'flex', flexDirection: 'column', width: '100%', margin: 'auto'}}>
-  { title === 'Register' &&
-	<FormControl style={{ margin: '10px' }} >
-	   <InputLabel htmlFor="Email">Email</InputLabel>
-	   <Input 
-		error={checkerState.email?false:true}
-		id="Email" name="email"  
-	   	onBlur={(e)=> checkerFn(e)}
-		onChange={(e)=>inputFn(e)}
-	   />
-
-  {!checkerState.email &&  <FormHelperText error id="component-error-text">Email is required</FormHelperText> }
-	</FormControl>
-  }
    <FormControl
 	style={{ margin: '10px' }}	
     >
 	<InputLabel htmlFor="Username">Username</InputLabel>
         <Input
+          required
 	  name="username"
 	  error={checkerState.username?false:true}
 	  onBlur={(e) => checkerFn(e) }
@@ -69,6 +56,7 @@ export default function FormComponent({
    >
 	<InputLabel htmlFor="Password" >Password</InputLabel>   
    	<Input 
+	  required
 	  name="password"
 	  error={checkerState.password?false:true}
 	  onBlur={(e)=> checkerFn(e)}
@@ -102,6 +90,7 @@ export default function FormComponent({
          <InputLabel htmlFor="confirmpass">Confirm Password</InputLabel>
          <Input
 	   name="confirmpass"
+	   required
            error={checkerState.confirmpass?false:true}
            onBlur={(e)=> checkerFn(e)}
            onChange={(e)=> inputFn(e)}

@@ -5,27 +5,24 @@ function  register (req, res) {
   const db = req.app.get('db');
   const { username, email, password } = req.body;
 
-  argon2
-	.hash(password)
-	.then(hash => {
-	  return db.users.insert(
-	    {
-	     username: username,
-	     email: email,
-	     password: hash,
-	      //addressbook:[{
-		//  contactId: null,
-		//  userId: undefined 
-		//},
-	     // ],
-	    },
-	    { deepInsert: true },
-	  );	 
-	}).then(user => {
-		const token = jwt.sign({ userId: user.id }, secret);
-		res.status(201).json({...user, token});
-	 })
-	.catch(err => { console.error(err); res.status(500).end() });
+  db.users.findOne({ username  }, {fields: ['username']})
+  .then(user => {
+  if (user) { return 'Username already exists' }
+ argon2
+         .hash(password)
+         .then(hash => {
+           return db.users.insert(
+             {
+              username: username,
+              password: hash,
+            }    
+           );     
+         }).then(user => {
+                 const token = jwt.sign({ userId: user.id }, secret);
+                 res.status(201).json({...user, token});
+          })
+         .catch(err => { console.error(err); res.status(500).end() });
+  }).catch(err => { console.error(err); res.status(500).end() });
 }
 
 function login (req, res){
@@ -35,7 +32,7 @@ function login (req, res){
   db.users
 	.findOne(
 	 { username  },
-	 { fields: ['id', 'username', 'email', 'password'], }
+	 { fields: ['id', 'username',  'password'], }
 	).then(user => {
 	 if(!user)  { throw new Error('Invalid username')};
 	 
@@ -57,7 +54,21 @@ function login (req, res){
 	 }
 	})
 }
+
+function check (req,res){
+  const db = req.app.get('db');
+  const {username} = req.body
+  console.log(username)
+  db.users.findOne({ username  }, { fields: ['id', 'username'] })
+          .then(user => {
+	   if (user) {return res.status(226).end()}
+	})
+	  .catch(err => {console.error(err); res.status(500).end()})
+
+}
+
 module.exports = {
   register,
-  login
+  login,
+  check
 }
