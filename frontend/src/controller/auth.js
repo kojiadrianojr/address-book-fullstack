@@ -6,23 +6,21 @@ class Auth {
    this.authenticated = false
   }
 
-  login(login, cb){
+  login(login,cb){
    axios.post('http://localhost:3911/api/login',{
 	username: login.username,
 	password: login.password
    }).then(response => { 
-	if (response.status === 200) {
-	 alert('Logged in!');
 	 ls.set('token', response.data.token);
 	 ls.set('login', this.authenticated = true);
 	 ls.get('login');
+	 alert('Logged in!');	
 	 cb();
-	}else{
-	 alert('Invalid Credentials my friend');
-	 this.authenticated = false
-	}	
-     })
-
+   }).catch(err=>{
+	console.log(err)
+	alert('Username and Password does not match');
+	ls.set('login', this.authenticated = false);
+   })
   }
  
   register(register, cb){
@@ -40,13 +38,13 @@ class Auth {
       alert('Please enter required information');
     }
   }
-  logout(cb){
+  logout(){
    ls.clear();   
-   cb()   
+  
   }
 
   isAuthenticated(){
-   return ls.get('login'); 
+    return ls.get('login');
   }
  
 }

@@ -1,15 +1,13 @@
 import React from 'react';
-
+import {Redirect} from 'react-router-dom';
 import Container from '@material-ui/core/Container';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
-
 import AddressBookLogo from '../../icons/logo2.png';
+import AddressBookLogoWhite from '../../icons/logo2-white.png';
 import SignInWallpaper from '../../icons/baby-back-view-blur-1497394.jpg';
-
 import FormComponent  from './component/input';
 import AppBarComponent from './../common-component/appbar';
-
 import auth from '../../controller/auth.js';
 
 export default class  Signin extends React.Component {
@@ -34,21 +32,20 @@ export default class  Signin extends React.Component {
 	  password: true,
 	  confirmpass: true,
 	},
-        isRegister: false,
-	
+        isRegister: false,	
+	LoggedIn: false,
    } 
   }
 
 
  handleLogin = (e, props) => {   
     e.preventDefault();
-    if ((this.state.credentials.username === '')&&(this.state.credentials.password==='')){
-	return alert('Please enter username and password')
-    } 
-   
-    auth.login(this.state.credentials,() => {
-         this.props.history.push("/Home");
-    })
+	if ((this.state.credentials.username !== '')&&(this.state.credentials.password!=='')){
+		auth.login(this.state.credentials, ()=>{ return  this.props.history.push('/Home')  })
+	}else{
+		alert('Please Enter Username/Password');
+	}
+     
  }
 
  onRegister = (e, props) => {
@@ -70,8 +67,7 @@ export default class  Signin extends React.Component {
     this.setState({
       checkerRegister: { username: true, password: true, confirmpass: true}
     });
-    auth.register(this.state.register, ()=>{ this.setState({ isRegister: false})  })
-      
+    auth.register(this.state.register, ()=>{ this.setState({ isRegister: false})})      
    }
  }
  
@@ -105,8 +101,8 @@ handleRegister = (e) => {
   checker_cpy[e.target.name] = false
   this.setState({checker: checker_cpy})
  }else{
-   checker_cpy[e.target.name] = true
-   register_cpy[e.target.name] = e.target.value
+	 checker_cpy[e.target.name] = true
+		 register_cpy[e.target.name] = e.target.value
    this.setState({ register: register_cpy, checkerRegister: checker_cpy })
  }
 
@@ -131,8 +127,9 @@ handleRegister = (e) => {
   } 
 }
 
+
  render(){
-  return (
+  return auth.isAuthenticated()? <Redirect to="/Home" /> : (
   <div style={{
 	height: '100vh',
 	backgroundSize: 'cover',
@@ -200,8 +197,11 @@ handleRegister = (e) => {
 
     </Container>
  </div>
+    
+   
   )
  }
 }
+
 
 
