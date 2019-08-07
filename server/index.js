@@ -29,6 +29,9 @@ massive({
   app.patch('/api/contacts/:contactId', contact.update);
   app.delete('/api/contacts', contact.del);
 
+//addressbook
+  app.get('/api/addressbook', ab.fetch);
+  app.post('/api/addressbook', ab.add);
   
 
   const PORT = 3911

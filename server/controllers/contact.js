@@ -25,8 +25,8 @@ function add (req, res) {
 	postal_code,
 	country,
 	addressbook: [{
-	  userId: userId,
-	  contactId: undefined
+	  userid: userId,
+	  contactid: undefined
 	  },
 	 ],
 	}, {deepInsert: true})

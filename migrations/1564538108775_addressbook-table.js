@@ -6,12 +6,12 @@ exports.up = (pgm) => {
 	type: 'serial',
 	primaryKey: true
    },
-   contactId: {
+   contactid: {
 	type: 'integer',
 
 	references: '"contacts"',
    },
-   userId: {
+   userid: {
 	type: 'integer',
 	notNull: true,
 	references: '"users"',

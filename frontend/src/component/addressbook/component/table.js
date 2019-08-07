@@ -1,6 +1,10 @@
 import React from 'react';
 import MaterialTable from 'material-table';
 import { forwardRef } from 'react';
+import axios from 'axios';
+import * as ls from 'local-storage';
+
+
 import AddBox from '@material-ui/icons/AddBox';
 import ArrowUpward from '@material-ui/icons/ArrowUpward';
 import Check from '@material-ui/icons/Check';
@@ -37,21 +41,21 @@ const tableIcons = {
     ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
   };
 
-export default function AddressBookTable() {
+export default function AddressBookTable({data}) {
   const [state, setState] = React.useState({
      columns: [
-	{ title: 'First Name', field: 'fname' },
-	{ title: 'Last Name', field: 'lname' },
-	{ title: 'Home Number', field: 'pnum' },
-	{ title: 'Mobile Number', field: 'mnum' },
-	{ title: 'Work Number', field: 'wnum' },
+	{ title: 'First Name', field: 'first_name' },
+	{ title: 'Last Name', field: 'last_name' },
+	{ title: 'Home Number', field: 'home_phone' },
+	{ title: 'Mobile Number', field: 'mobile_phone' },
+	{ title: 'Work Number', field: 'work_phone' },
 	{ title: 'Email', field: 'email' },
 	{ title: 'City' , field: 'city' },
-	{ title: 'Postal Code', field: 'pcode' },
+	{ title: 'Postal Code', field: 'postal_code' },
 	{ title: 'Country', field: 'country' },
      ],
-     data: [{ fname: '', lname: '', pnum: '', mnum: '', wnum: '', email: '', city: '', pcode: '', country: '' }]
-
+     //data: [{ fname: '', lname: '', pnum: '', mnum: '', wnum: '', email: '', city: '', pcode: '', country: '' }]	
+     data: [...data.data]
   });
 
   return (
@@ -60,6 +64,17 @@ export default function AddressBookTable() {
 	title="Addressbook"
 	columns={state.columns}
 	data={state.data}
+	editable={{
+	  onRowUpdate: (newData, oldData) =>
+		new Promise(resolve =>{
+		 setTimeout(()=> {
+		   const data = [...state.data];
+		   data[data.indexOf(oldData)] = newData;
+		   setState({ ...state, data});
+		 }, 600);
+		}),
+	  
+	}}
 	/>
 
   )

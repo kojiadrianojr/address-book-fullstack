@@ -13,6 +13,8 @@ class Auth {
    }).then(response => { 
 	 ls.set('token', response.data.token);
 	 ls.set('login', this.authenticated = true);
+	 ls.set('userId', response.data.id);
+	 ls.set('username', response.data.username);
 	 ls.get('login');
 	 alert('Logged in!');	
 	 cb();
