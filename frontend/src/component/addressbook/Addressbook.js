@@ -9,10 +9,10 @@ import axios from 'axios';
 //import {Tooltip,IconButton} from '@material-ui/core';
 import {Loading} from '@material-ui/icons';
 import AddressBookTable from './component/table';
+import CircularDeterminate from './component/Loading2';
 //import CardComponent from './component/Card';
 import addressbookController from './controller/addressbook';
 import * as ls from 'local-storage';
-import LinearQuery from './component/Loading';
 export default class Addressbook extends React.Component{
  constructor(){
   super();
@@ -37,25 +37,9 @@ export default class Addressbook extends React.Component{
 
 handleSubmit = (e) => {
   e.preventDefault();
-  //addressbookController.addContact(this.state.contactData, ls.get('userId'))
-  axios.post(`http://localhost:3911/api/contacts?userId=${ls.get('userId')}`,{
-           first_name: this.state.contactData.fname,
-           last_name: this.state.contactData.lname,
-           home_phone: this.state.contactData.hnum,
-           mobile_phone: this.state.contactData.mnum,
-           work_phone: this.state.contactData.wnum,
-           email: this.state.contactData.email,
-           city: this.state.contactData.city,
-           postal_code: this.state.contactData.pcode,
-           country:this.state.contactData.country
-         })
-         .catch(err=> {
-          console.log(err);
-           alert('There is something wrong!');
-         })
-        
-  this.setState({ loading: true });
+  addressbookController.addContact(this.state.contactData).then((msg)=>alert(msg))
   this.updateContact();
+  this.setState({ loading: true });
 }
 
 handleChange = (e) => {
@@ -67,17 +51,24 @@ handleChange = (e) => {
 }
 
 handleModify = (newData) => {
-	 addressbookController.modifyContact(newData)
-      }
-handleModify = (id) => {}
+  addressbookController.modifyContact(newData).then(this.updateContact())
+}
+handleDelete = (id) => {}
 
 
  componentDidMount(){
-   axios.get(`http://localhost:3911/api/addressbook?userId=${ls.get('userId')}`)
-	.then(data => {
-		this.setState({ data: data.data })
-	})
-	.catch(err=> {console.log(err)})
+      /*  axios.get(`http://localhost:3911/api/addressbook?userId=${ls.get('userId')}`,{
+          headers: 
+            {
+              Authorization: `Bearer ${ls.get('token')}`      
+            }
+         }) 
+          .then(data => {
+      		this.setState({ data: data.data })
+      	})
+      	.catch(err=> {console.log(err)})
+      */
+    this.updateContact();
   }
 
  
@@ -89,10 +80,27 @@ handleModify = (id) => {}
  
  
   updateContact = () => {
-    axios.get(`http://localhost:3911/api/addressbook?userId=${ls.get('userId')}`)
-	.then(data => {
-	    this.setState({ data: data.data  })
-	}).then(data => {this.setState({ loading: false })})   
+ /*
+    axios.get(`http://localhost:3911/api/addressbook?userId=${ls.get('userId')}`,{
+        headers: 
+          {
+            Authorization: `Bearer ${ls.get('token')}`      
+          }
+       }) 
+        .then(data => {
+        this.setState({ data: data.data })
+      })
+      .catch(err=> {console.log(err)})
+ */
+  addressbookController.getData()
+    .then(response=>{
+       this.setState({data: response})
+    })
+    .then(()=>{
+      this.setState({loading: false})
+      console.log('Success!')
+    })
+
   }
   
 
@@ -107,7 +115,7 @@ handleModify = (id) => {}
 			handleSubmitFn={this.handleSubmit}
 			contactData={this.state.contactData}
 		/>
-	{!this.state.data?  <h3> Waiting for Contacts to Display... </h3> :(
+	{!this.state.data?  ( <React.Fragment>  <h3>  Waiting for contacts ...  </h3> <br /> <CircularDeterminate /> </React.Fragment>) :(
 	 <AddressBookTable 
 		info={this.state.data} 
 		isLoading={this.state.loading} 

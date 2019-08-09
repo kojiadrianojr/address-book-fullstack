@@ -20,7 +20,7 @@ massive({
   app.use(master.authenticate);
 
 //user
-  app.post('/api/check', user.check);
+  //app.post('/api/check', user.check);
   app.post('/api/user', user.register);  
   app.post('/api/login', user.login);
 //contact

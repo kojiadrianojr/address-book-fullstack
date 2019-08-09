@@ -68,11 +68,12 @@ modifyFn,
   const [load, setLoad] = React.useState(true)
  
   React.useEffect(()=> {
+  	 setLoad(true)
 	 setState({...state, data: [...info]})
 	 setLoad(false)
   }, [info] ) 
  
- { return load? <LinearQuery/> : (
+ { return load? <LinearQuery /> : (
 	<MaterialTable 
 	icons={tableIcons}
 	title="Addressbook"
@@ -80,14 +81,14 @@ modifyFn,
 	data={state.data}
 	editable={{
 	  onRowUpdate: (newData, oldData) =>
-		new Promise(resolve =>{
-		 setTimeout(()=> {
-		   const data = [...state.data];
-		   data[data.indexOf(oldData)] = newData;
-		   modifyFn(data)
-		 }, 600);
-		}),
-	  
+          new Promise(resolve => {
+            setTimeout(() => {
+              resolve();
+              const data = [...state.data];
+              data[data.indexOf(oldData)] = newData;
+              modifyFn(data)
+            }, 600);
+          }),
 	}}
 	/>
 
