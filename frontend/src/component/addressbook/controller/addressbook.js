@@ -39,7 +39,7 @@ class addressbookController{
   	}).then(msg=> {return msg='Contact Added!'})
 	.catch(err=> {
 	  console.log(err);
-	  alert('There is something wrong!');
+	  alert('There is something wrong! MAYBE: ', err);
 	})
  }
  modifyContact(data){
@@ -73,14 +73,27 @@ class addressbookController{
  		headers: {
  			Authorization: `Bearer: ${ls.get('token')}`
  		}
- 	})
+ 		})
  	})
  	.catch(err=> {
  		console.log(err);
- 		alert('there is something wrong!!')
+ 		alert('There is something wrong! MAYBE: ' + err)
  	})
  }
 
+ sortContact(order){
+ 	axios.get(`http://localhost:3911/api/${ls.get('userId')}/addressbook?orderby=${order}`,{
+ 		headers: {
+ 			Authorization: `Bearer: ${ls.get('token')}`
+ 		}
+ 	}).then(response => {
+ 		return response.data
+ 	})
+ 	.catch(err => {
+ 		console.log(err);
+ 		alert('There is something wrong! MAYBE: ' + err);
+ 	})
+ }
 }
 
 export default new addressbookController();

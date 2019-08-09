@@ -2,9 +2,8 @@ import React from 'react';
 import TextField from '@material-ui/core/TextField';
 //import addressbookController from '../controller/addressbook';
 import { IconButton } from '@material-ui/core';
-import { Check } from '@material-ui/icons';
 import {DialogActions} from '@material-ui/core';
-import {PersonAdd,Contacts, ViewComfy, ListAlt, Cancel} from '@material-ui/icons';
+import { Cancel, HowToReg} from '@material-ui/icons';
 
 function TextFieldComponent({...props}){
  return (
@@ -13,6 +12,7 @@ function TextFieldComponent({...props}){
 	autoFocus
 	margin="dense"
 	{...props}
+	style={{Appearance: 'none'}}
 	/>
 		
  )
@@ -30,6 +30,7 @@ export default function AddContactsForm({ closeFn,changeFn, submitFn
 		id="fname" 
 		label="First Name" 
 		type="string"  
+		required
 		onChange={(e)=>changeFn(e)}
    />
 	<TextFieldComponent 
@@ -67,12 +68,11 @@ export default function AddContactsForm({ closeFn,changeFn, submitFn
 		onChange={(e)=>changeFn(e)}
 	/>
          <DialogActions>
-	 <IconButton variant="outlined" color="primary" type="submit">
-                  <Check />
-         </IconButton>
-
+	 			<IconButton variant="outlined" color="primary" type="submit">
+                	<HowToReg fontSize="large" />
+         		</IconButton>
                  <IconButton variant="outlined" color="secondary" onClick={ closeFn } >
-                   <Cancel />
+                   <Cancel fontSize="large" />
                  </IconButton>
          </DialogActions>
 	

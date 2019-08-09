@@ -35,6 +35,7 @@ massive({
   app.get('/api/addressbook', ab.fetch);
   app.post('/api/addressbook', ab.add);
   app.delete('/api/addressbook', ab.del);
+  app.get('/api/:userid/addressbook', ab.sort);
 
   const PORT = 3911
   app.listen(PORT, () => {console.log(`Server now listening /(^_^)/  @ ${PORT}`)});

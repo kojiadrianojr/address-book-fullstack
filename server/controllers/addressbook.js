@@ -39,9 +39,19 @@ function del (req,res) {
 		})
 }
 
+function sort (req, res) {
+	const db = req.app.get('db');
+		db.query(`SELECT * FROM addressbook, contacts WHERE contacts.id = addressbook.contactid AND addressbook.userid = ${req.params.userid} ORDER BY first_name ${req.query.orderby} `)
+				.then(response => res.status(200).json(response))
+				.catch(err=>{
+					console.error(err);
+					res.status(500).end();
+				})
+}
 
 module.exports = {
   add,
   fetch,
   del,
+  sort
 }

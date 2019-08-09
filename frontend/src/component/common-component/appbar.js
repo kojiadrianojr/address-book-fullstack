@@ -1,10 +1,11 @@
 import React from 'react';
 import { AppBar, Toolbar, IconButton } from '@material-ui/core';
-import {AccountCircle} from '@material-ui/icons';
+
 import Tooltip from '@material-ui/core/Tooltip';
 import auth from './../../controller/auth';
 import * as ls from 'local-storage';
 import Typography from '@material-ui/core/Typography';
+import {AlternateEmail, SentimentVeryDissatisfied} from '@material-ui/icons';
 
 export default function AppBarComponent({logo, component}, props){
 
@@ -41,10 +42,10 @@ function logOut(e) {
 	</div>
         { ls.get('login') === true &&
           <div style={{display: 'flex', justifyContent: 'space-around' }}> 
-	  <h4> Hello @{ls.get('username')}  </h4>
+	  <h4> Welcome, <AlternateEmail fontSize="default" style={{margin: '-6px 1px'}} />{ls.get('username')}  </h4>
 	   <Tooltip  title="Logout" enterDelay={500} leaveDelay={200}>
-		<IconButton onClick={(e)=> logOut(e)}>
-		  <AccountCircle />
+		<IconButton variant="outlined" color="primary" onClick={(e)=> logOut(e)}>
+		  <SentimentVeryDissatisfied fontSize="large" />
 		</IconButton>
 	   </Tooltip>
 	  </div>
