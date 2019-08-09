@@ -9,6 +9,7 @@ import axios from 'axios';
 //import {Tooltip,IconButton} from '@material-ui/core';
 import {Loading} from '@material-ui/icons';
 import AddressBookTable from './component/table';
+//import CardComponent from './component/Card';
 import addressbookController from './controller/addressbook';
 import * as ls from 'local-storage';
 import LinearQuery from './component/Loading';
@@ -65,6 +66,10 @@ handleChange = (e) => {
    })	
 }
 
+handleModify = (newData) => {
+	 addressbookController.modifyContact(newData)
+      }
+handleModify = (id) => {}
 
 
  componentDidMount(){
@@ -88,7 +93,6 @@ handleChange = (e) => {
 	.then(data => {
 	    this.setState({ data: data.data  })
 	}).then(data => {this.setState({ loading: false })})   
-   console.log(this.state.data)
   }
   
 
@@ -103,7 +107,12 @@ handleChange = (e) => {
 			handleSubmitFn={this.handleSubmit}
 			contactData={this.state.contactData}
 		/>
-	{!this.state.data?  <h3> No Contacts Yet! </h3> :  <AddressBookTable info={this.state.data} isLoading={this.state.loading} />}
+	{!this.state.data?  <h3> Waiting for Contacts to Display... </h3> :(
+	 <AddressBookTable 
+		info={this.state.data} 
+		isLoading={this.state.loading} 
+		modifyFn={this.handleModify}			
+	/>)}
    	</div>
  	)	
  }

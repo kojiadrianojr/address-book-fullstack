@@ -4,6 +4,7 @@ import { forwardRef } from 'react';
 //import axios from 'axios';
 //import * as ls from 'local-storage';
 import LinearQuery from './Loading';
+import addressbookController from '../controller/addressbook';
 
 
 import AddBox from '@material-ui/icons/AddBox';
@@ -42,7 +43,12 @@ const tableIcons = {
     ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
   };
 
-export default function AddressBookTable({info, isLoading}) {
+export default function AddressBookTable({
+info, 
+isLoading,
+modifyFn,
+
+}) {
   const [state, setState] = React.useState({
      columns: [
 	{ title: 'First Name', field: 'first_name' },
@@ -59,8 +65,14 @@ export default function AddressBookTable({info, isLoading}) {
      data: [...info]
   });
 
-console.log(info)
- { return isLoading? <LinearQuery/> : (
+  const [load, setLoad] = React.useState(true)
+ 
+  React.useEffect(()=> {
+	 setState({...state, data: [...info]})
+	 setLoad(false)
+  }, [info] ) 
+ 
+ { return load? <LinearQuery/> : (
 	<MaterialTable 
 	icons={tableIcons}
 	title="Addressbook"
@@ -72,10 +84,9 @@ console.log(info)
 		 setTimeout(()=> {
 		   const data = [...state.data];
 		   data[data.indexOf(oldData)] = newData;
-		   setState({ ...state, data});
+		   modifyFn(data)
 		 }, 600);
 		}),
-	  
 	  
 	}}
 	/>

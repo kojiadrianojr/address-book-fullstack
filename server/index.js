@@ -4,6 +4,7 @@ const cors = require("cors");
 const user = require('./controllers/user'); // user controller
 const contact = require('./controllers/contact');  // contact controller
 const ab = require('./controllers/addressbook.js'); //addressbook controller
+const master = require('./controllers/master'); //master controller
 massive({
   host: 'localhost',
   port: 5432,
@@ -16,6 +17,7 @@ massive({
   app.set('db', db);
   app.use(express.json());
   app.use(cors());
+  app.use(master.authenticate);
 
 //user
   app.post('/api/check', user.check);
@@ -26,7 +28,7 @@ massive({
   app.get('/api/contacts', contact.fetchAll);
   app.get('/api/contacts/:contactId', contact.fetchId);
   app.get('/api/contact', contact.search); 
-  app.patch('/api/contacts/:contactId', contact.update);
+  app.patch('/api/contacts', contact.update);
   app.delete('/api/contacts', contact.del);
 
 //addressbook

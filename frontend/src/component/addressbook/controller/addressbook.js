@@ -34,6 +34,23 @@ class addressbookController{
 	  alert('There is something wrong!');
 	})
  }
+ modifyContact(data,id){
+    axios.patch(`http://localhost:3911/api/contacts?userId=${data.id}`,{
+		first_name: data.fname,
+		last_name: data.lname,
+		home_phone: data.hnum,
+		mobile_phone: data.mnum,
+		work_phone: data.wnum,
+		email: data.email,
+		city: data.city,
+		postal_code: data.pcode,
+		country: data.country
+	})	
+	.catch(err=> {
+	  console.log(err);
+	  alert('there is something wrong');
+	})
+  }
 }
 
 export default new addressbookController();
