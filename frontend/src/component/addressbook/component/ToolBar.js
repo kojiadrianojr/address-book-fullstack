@@ -30,13 +30,11 @@ function ToolBarComponent({toggleView, handleChangeFn, handleSubmitFn, contactDa
 
  return (
  <React.Fragment>
-   <div style={{ display: 'flex'  }}>
-	<IconButton variant="outlined" color="primary" onClick={ handleClickOpen  }>
-	  <PersonAdd />	
-	</IconButton>
-	<IconButton variant="outlined" onClick={ changeView }  >
-	  { view===true? <ListAlt /> : <ViewComfy />   }
-	</IconButton>		
+    <div style={{ display: 'flex'  }}>
+		<IconButton variant="outlined" color="primary" onClick={ handleClickOpen  }>
+		  <PersonAdd />	
+		</IconButton>
+		
     </div>	
 
     <Dialog open={open} onClose={handleClose} PaperComponent={PaperComponent} aria-labelledby="draggable-dialog-title" >

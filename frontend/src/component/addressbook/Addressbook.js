@@ -51,9 +51,13 @@ handleChange = (e) => {
 }
 
 handleModify = (newData) => {
-  addressbookController.modifyContact(newData).then(this.updateContact())
+  addressbookController.modifyContact(newData)
+  this.setState({ loading: true })
 }
-handleDelete = (id) => {}
+handleDelete = (targetData) => {
+  addressbookController.deleteContact(targetData)
+  this.setState({ loading: true })
+}
 
 
  componentDidMount(){
@@ -98,7 +102,6 @@ handleDelete = (id) => {}
     })
     .then(()=>{
       this.setState({loading: false})
-      console.log('Success!')
     })
 
   }
@@ -119,7 +122,8 @@ handleDelete = (id) => {}
 	 <AddressBookTable 
 		info={this.state.data} 
 		isLoading={this.state.loading} 
-		modifyFn={this.handleModify}			
+		modifyFn={this.handleModify}
+    deleteFn={this.handleDelete}			
 	/>)}
    	</div>
  	)	

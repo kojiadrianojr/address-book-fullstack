@@ -47,7 +47,7 @@ export default function AddressBookTable({
 info, 
 isLoading,
 modifyFn,
-
+deleteFn,
 }) {
   const [state, setState] = React.useState({
      columns: [
@@ -86,7 +86,15 @@ modifyFn,
               resolve();
               const data = [...state.data];
               data[data.indexOf(oldData)] = newData;
-              modifyFn(data)
+              modifyFn(newData)
+            }, 600);
+          }),
+       onRowDelete: oldData =>
+          new Promise(resolve => {
+            setTimeout(() => {
+              resolve();
+              const data = [...state.data];
+              deleteFn(data[data.indexOf(oldData)])
             }, 600);
           }),
 	}}

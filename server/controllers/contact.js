@@ -79,11 +79,11 @@ function search (req, res){
 
 function update (req, res){
   const db = req.app.get('db')
-  const { contactId } = req.params
+  //const { contactId } = req.query
  // const { first_name, last_name, home_phone, mobile_phone, work_phone, email, city, postal_code, country} = req.body
 
   db.contacts
-	.update({id:contactId}, req.body)
+	.update(req.query.contactId, req.body)
 	.then(contact => {
 	  res.status(200).json(contact)
 	}).catch(err => {

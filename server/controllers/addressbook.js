@@ -28,8 +28,20 @@ function fetch (req,res){
 	})
 }
 
+function del (req,res) {
+	const db = req.app.get('db');
+
+	db.query(`DELETE FROM ADDRESSBOOK where contactid=${req.query.userId}`)
+		.then(ab => res.status(200).json(ab))
+		.catch(err => {
+			console.error(err);
+			res.status(500).end();
+		})
+}
+
 
 module.exports = {
   add,
   fetch,
+  del,
 }

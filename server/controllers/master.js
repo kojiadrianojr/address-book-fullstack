@@ -4,7 +4,7 @@ const secret = require('./secret');
 function authenticate(req, res, next) {
 	if((req.originalUrl === '/api/login') || (req.originalUrl == '/api/user')) {
 	} else {
-		console.log(`[!] Authorized: ${req.originalUrl}`)
+		console.log(`(^.^)// Being Accessed by: ${req.originalUrl}`)
     	if (!req.headers.authorization) {
       		 res.status(401).end();
     	}
