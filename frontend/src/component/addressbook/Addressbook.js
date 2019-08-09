@@ -62,8 +62,9 @@ handleDelete = (targetData) => {
   this.setLoading()
 }
 
-handleSort = (order) => {
-  addressbookController.sortContact(order)
+handleSort = (e) => {
+  addressbookController.sortContact(e.target.id)
+  this.updateContact()
   this.setLoading()
 }
 
@@ -107,6 +108,7 @@ handleSort = (order) => {
    	<div style={{ width: '100%' }}>
    		<AppBarComponent component="AddressBook"  logo={AddressBookLogo} />		
 		<ToolBarComponent 
+      sortFn={this.handleSort}
 			toggleView={this.state.toggleView} 
 			handleChangeFn={this.handleChange} 
 			handleSubmitFn={this.handleSubmit}
