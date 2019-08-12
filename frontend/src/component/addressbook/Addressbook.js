@@ -77,10 +77,14 @@ handleSort = (e) => {
  componentDidUpdate(prevProps,prevState){
   if ((!this.state.data)||(this.state.loading === true )){
    this.updateContact();
-  }else if (this.state.sortLoading === true){
+  }else if ((this.state.whatSort !== 'default')&&(this.state.sortLoading === true)){
     addressbookController.sortContact(this.state.whatSort)
     .then(response=>{this.setState({data: response})})
     .then(()=>{this.setState({sortLoading: false})})
+  }else if ((this.state.whatSort === 'default')&&(this.state.sortLoading === true)){
+    console.log(this.state.whatSort)
+    this.updateContact();
+    this.setState({sortLoading:false})
   }
  }
  

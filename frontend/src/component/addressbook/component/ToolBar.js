@@ -63,9 +63,9 @@ function handleCloseSortMenu() {
     	style={{textAlign: 'center'}}
     >
 
-   <button> Default </button>
-   <button id="asc" onClick={(e)=>sortFn(e)}> A - Z </button>
-   <button id="desc" onClick={(e)=>sortFn(e)}> Z - A </button>
+   <MenuItem id="default" onClick={(e=>sortFn(e))}> Default </MenuItem>
+   <MenuItem id="asc" onClick={(e)=>sortFn(e)}> A - Z </MenuItem>
+   <MenuItem id="desc" onClick={(e)=>sortFn(e)}> Z - A </MenuItem>
 
 
    
