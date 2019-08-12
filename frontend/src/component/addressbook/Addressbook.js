@@ -31,6 +31,8 @@ export default class Addressbook extends React.Component{
 	data: null,
 	toggleView: true,	
 	loading: false, 
+  sortLoading: false,
+  whatSort: '',
     }
  }
  
@@ -42,7 +44,6 @@ handleSubmit = (e) => {
     this.updateContact();
     this.setState({ loading: true });
   }, 1000)
- 
 }
 
 handleChange = (e) => {
@@ -63,9 +64,8 @@ handleDelete = (targetData) => {
 }
 
 handleSort = (e) => {
-  addressbookController.sortContact(e.target.id)
-  this.updateContact()
-  this.setLoading()
+  this.setState({whatSort: e.target.id})
+  this.setState({sortLoading: true})
 }
 
 
@@ -75,8 +75,12 @@ handleSort = (e) => {
 
  
  componentDidUpdate(prevProps,prevState){
-  if (this.state.loading === true ){
+  if ((!this.state.data)||(this.state.loading === true )){
    this.updateContact();
+  }else if (this.state.sortLoading === true){
+    addressbookController.sortContact(this.state.whatSort)
+    .then(response=>{this.setState({data: response})})
+    .then(()=>{this.setState({sortLoading: false})})
   }
  }
  
@@ -87,7 +91,6 @@ handleSort = (e) => {
          this.setState({data: response})
       })
       .then(this.unsetLoading())
-
   }
   
   unsetLoading = () => {

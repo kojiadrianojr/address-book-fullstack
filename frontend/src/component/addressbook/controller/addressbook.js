@@ -83,7 +83,7 @@ class addressbookController{
 
  sortContact(order){
  	console.log(order)
- 	axios.get(`http://localhost:3911/api/${ls.get('userId')}/addressbook?orderby=${order}`,{
+ 	return axios.get(`http://localhost:3911/api/${ls.get('userId')}/addressbook?orderby=${order}`,{
  		headers: {
  			Authorization: `Bearer: ${ls.get('token')}`
  		}
