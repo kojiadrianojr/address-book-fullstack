@@ -2,7 +2,8 @@ import React from 'react'
 import Form from './Form'
 import { Container, Paper, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-
+import { Button } from '@material-ui/core'
+import ButtonComponent from './ButtonComponent'
 const useStyles = makeStyles( theme => ({
     root: {
         backgroundColor: 'transparent',
@@ -16,6 +17,7 @@ const useStyles = makeStyles( theme => ({
         padding: '25px'
     }
 }))
+
 
 export default () => {
     const classes = useStyles();  
