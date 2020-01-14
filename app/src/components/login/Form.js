@@ -1,16 +1,16 @@
 import React from 'react'
-import {TextField, Grid, Button} from '@material-ui/core'
+import {TextField, Grid} from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import ButtonComponent from './ButtonComponent'
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
 
+import RegisterComponent from '../register'
+
 const useStyles = makeStyles(theme => ({
     margin: {
         margin: theme.spacing(1),
-
     },
-
 }));
 
 function FormField (props) {
@@ -26,7 +26,7 @@ function FormField (props) {
                         fullWidth
                         id={`${props.title}-id`}
                         label={props.title}
-                        type={props.title === 'Password' &&'password'}
+                        type={props.title === 'Password'? 'password':null}
                     />
                 </Grid>
             </Grid>
@@ -35,16 +35,22 @@ function FormField (props) {
 }
 
 export default () => {
+    const [onRegister, setRegister] = React.useState(false)
+
     return (
         <React.Fragment>
-        <form style={{display:'flex', flexDirection: 'column'}}>
+       { 
+       !onRegister?(<form style={{display:'flex', flexDirection: 'column'}}>
             {['Username','Password'].map(field => (
                     <FormField key={field} title={field} />
             ))}
             <ButtonComponent title="Login" />
-        </form>
+        </form>):(
+            <RegisterComponent />
+        )
+        }
         <div style={{display: 'flex', justifyContent: 'center'}}>
-        <ButtonComponent title="Register" style={{width: '100%'}}/>
+        <ButtonComponent title={!onRegister?'Register Now!':'Already have an account?'} style={{width: '100%'}} action={() => setRegister(!onRegister)}/>
         </div>
         </React.Fragment>
     )

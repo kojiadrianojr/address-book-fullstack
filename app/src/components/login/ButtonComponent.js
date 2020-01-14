@@ -3,7 +3,7 @@ import Button from '@material-ui/core/Button'
 
 function ButtonComponent(props){
     return(
-        <Button style={props.style}>
+        <Button style={props.style} onClick={props.action}>
             {props.title}
         </Button>
     )

@@ -1,5 +1,4 @@
 import React from 'react'
-import TextField from '@material-ui/core/TextField'
 import { FormControl, makeStyles, InputLabel, Input, InputAdornment } from '@material-ui/core'
 
 import PersonIcon from '@material-ui/icons/Person';
@@ -22,6 +21,8 @@ function FieldIcon(name){
             return (<AccountCircleIcon />)
         case 'Password':
             return (<VpnKeyIcon />)
+        default:
+            return ''
     }
 }
 
@@ -31,12 +32,14 @@ export default (props) => {
     <FormControl className={classes.margin}>
         <InputLabel htmlFor={`${props.title}-id`}>{props.title}</InputLabel>
         <Input 
+            variant="outlined"
             id={`${props.title}-title`}
             startAdornment={
                 <InputAdornment position="start">
                     {FieldIcon(props.title)}
                 </InputAdornment>
             }
+            type={props.title === 'Password' || props.title === 'Confirm Password' ? 'password':null}
         />
     </FormControl>
     )
