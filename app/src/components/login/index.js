@@ -2,6 +2,8 @@ import React from 'react'
 import Form from './Form'
 import { Container, Paper, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
+import { LoginContext, init, LoginReducer } from './controller/LoginContext'
+
 const useStyles = makeStyles( theme => ({
     root: {
         backgroundColor: 'transparent',
@@ -16,15 +18,30 @@ const useStyles = makeStyles( theme => ({
     }
 }))
 
+
 export default () => {
-    const classes = useStyles();  
+    const classes = useStyles(); 
+    const [LOGIN, DISPATCH] = React.useReducer( LoginReducer, init )
+    
+    const HandleForm = (event, data) => {
+        event.preventDefault()
+        DISPATCH({credentials: data.creds})
+    }
+
+    React.useEffect( () => {
+        console.log(LOGIN)
+    }, [LOGIN])
+
+
     return (
         <Container component="div" maxWidth="sm" className={classes.root}>
             <Paper className={classes.loginCont}>
                 <Typography variant="h2">
                     Address Book Login
                 </Typography>
-                <Form />
+                <LoginContext.Provider value="hi">
+                <Form action={HandleForm} />
+                </LoginContext.Provider>
             </Paper>
         </Container>
     )

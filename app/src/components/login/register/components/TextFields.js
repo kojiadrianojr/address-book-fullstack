@@ -39,8 +39,10 @@ export default (props) => {
                     {FieldIcon(props.title)}
                 </InputAdornment>
             }
+            onChange={props.action}
             type={props.title === 'Password' || props.title === 'Confirm Password' ? 'password':null}
-        />
+            name={props.title}
+       />
     </FormControl>
     )
 }
